@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'my-employee',
-  templateUrl: '/employee.component.html'
+  selector: 'my-patient',
+  templateUrl: 'patient.component.html'
   //styles: [`h1 { font-family: Lato; }`]
 
   
 })
-export class EmployeeComponent  {
+export class PatientComponent  {
    firstName : string = "Kishore";
   lastName : string = "Maroju";
   gender : string = "Male";
