@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+   
+   <head>
+      <title>Angular JS | Controllers </title>
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+   </head>
+   <employee-count></employee-count>
+   <body>
+
+      <table class = "table table-bordered">
+          <tr>
+            <thead class="one tablecolors">
+              <td>Code</td>
+              <td>Name</td>
+              <td>Gender</td>
+              <td>Annula Salary</td>
+              <td>Date of Birth</td>
+              
+            </thead>
+            
+          </tr>
+            <tbody>
+              <!-- <tr *ngFor = "let employee of employees">-->
+              <tr *ngFor = "let employee of employees;trackBy:trackByEmpCode"> <!--this line is added in session :17 -->
+                <td>{{employee.code|uppercase}}</td>
+                <td>{{employee.name| employeeTitle:employee.gender}}</td>
+                <td>{{employee.gender}}</td>
+                <td>{{employee.annualSalary|currency:'USD':true}}</td>
+                <!--<td>{{employee.dateOfBirth</td> -->
+                  <!--this line is added in angular pipes session: 18, https://angular.io/api/common/DatePipe-->
+                <td>{{employee.dateOfBirth|date:'dd/MM/y'|uppercase}}</td>
+                </tr>
+                <!--If the employee object is 0 , or we did not get employee object from server-->
+                <tr *ngIf = "!employees || employees.length==0">
+                  <td colspan="5">No Employees to display</td>
+                </tr>
+            <tbody>
+            
+            
+            
+        </table>
+
+      <br/>
+      <button (click) ="getEmployees()">Refresh Employees</button>
+   </body>
+</html>
+
