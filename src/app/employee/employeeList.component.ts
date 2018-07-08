@@ -9,6 +9,9 @@ import { Component } from '@angular/core';
 })
 export class EmployeeListComponent  {
   employees : any[];
+  
+  
+
   constructor(){
     this.employees = [
     { code: 'emp101', name: 'Tom', gender: 'Male', annualSalary: 5500, dateOfBirth: '6/5/1988' },
@@ -32,4 +35,21 @@ trackByEmpCode(index:number, employee: any):string{
 return employee.code;
 
 }
+
+//added in session- 21 
+//this will return the total count 
+getTotalEmployeeCount(): number{ 
+  return this.employees.length; 
 }
+//this will return the total male count 
+getTotalMaleEmployeeCount(): number{
+  return this.employees.filter(e=> e.gender ==="Male").length; 
+}
+
+//this will return the total Female count 
+getTotalFemaleEmployeeCount(): number{
+  return this.employees.filter(e=> e.gender ==="Female").length; 
+}
+
+
+} 

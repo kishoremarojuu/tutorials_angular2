@@ -1,0 +1,165 @@
+employeeCount.component.html
+
+<span class="radioClass">Show : </span>
+
+<input name='options' type='radio' value='All'[(ngModel)] = "selectedRadioButtonValue"(change)= "onRadioButtonSelectionChange()" />
+<span class="radioClass">{{'All(' + all + ')'}}</span>
+
+<input name='options' type='radio' value='Male'[(ngModel)] = "selectedRadioButtonValue"(change)= "onRadioButtonSelectionChange()" />
+<span class="radioClass">{{'Male(' + male + ')'}}</span>
+
+<input name='options' type='radio' value='Female'[(ngModel)] = "selectedRadioButtonValue"(change)= "onRadioButtonSelectionChange()" />
+<span class="radioClass">{{'Female(' + female + ')'}}</span> 
+
+---------------------------------------------------------------
+employeeCount.component.ts
+import { Component , Input, Output, EventEmitter} from '@angular/core';
+
+@Component({
+  selector: 'employee-count',
+  templateUrl: '/employeeCount.component.html'
+  //  stylesUrls: [`/employeeList.component.css`]
+
+  
+})
+export class EmployeeCountComponent  {
+  @Input()
+  all:number;  
+  @Input()
+  male: number ; 
+  @Input()
+  female: number ; 
+
+  selectedRadioButtonValue: string = "All"; //this property will keep track 
+
+  @Output()
+  countRadioButtonSelectionChanged : EventEmitter<string>  = new EventEmitter<string>(); 
+
+  onRadioButtonSelectionChange(){
+    this.countRadioButtonSelectionChanged.emit(this.selectedRadioButtonValue);
+    console.log(this.selectedRadioButtonValue);
+  }
+}
+
+----------------------------------------------------------------------
+employeeList.component.html
+  <!doctype html>
+<html>
+   
+   <head>
+      <title>Angular JS | Controllers </title>
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+   </head>
+  <!-- added in session 21-->
+   <employee-count [all] = "getTotalEmployeeCount()"
+                   [male] = "getTotalMaleEmployeeCount()" 
+                   [female] = "getTotalFemaleEmployeeCount()"
+                   (countRadioButtonSelectionChanged) ="onEmployeeCountRadionButtonChange($event)"> 
+   </employee-count>
+
+   
+   
+   <body>
+
+      <table class = "table table-bordered">
+          <tr>
+            <thead class="one tablecolors">
+              <td>Code</td>
+              <td>Name</td>
+              <td>Gender</td>
+              <td>Annula Salary</td>
+              <td>Date of Birth</td>
+              
+            </thead>
+            
+          </tr>
+            <tbody> 
+              <!-- <tr *ngFor = "let employee of employees">-->
+                <!-- <ng-container *ngFor = "let employee of employees;trackBy:trackByEmpCode" >-->
+                    <ng-container *ngFor = "let employee of employees;" >
+              <tr *ngIf ="selectedEmployeeCountRadioButton=='All'|| 
+              selectedEmployeeCountRadioButton==employee.gender"> <!--this line is added in session :17 -->
+                <td>{{employee.code|uppercase}}</td>
+                <td>{{employee.name| employeeTitle:employee.gender}}</td>
+                <td>{{employee.gender}}</td>
+                <td>{{employee.annualSalary|currency:'USD':true}}</td>
+                <!--<td>{{employee.dateOfBirth</td> -->
+                  <!--this line is added in angular pipes session: 18, https://angular.io/api/common/DatePipe-->
+                <td>{{employee.dateOfBirth|date:'dd/MM/y'|uppercase}}</td>
+                </tr>
+                <!--If the employee object is 0 , or we did not get employee object from server-->
+                <tr *ngIf = "!employees || employees.length==0">
+                  <td colspan="5">No Employees to display</td>
+                </tr>
+              </ng-container>
+            <tbody>
+            
+            
+            
+        </table>
+
+      <br/>
+      <button (click) ="getEmployees()">Refresh Employees</button>
+   </body>
+</html>
+----------------------------------------------------------------------
+employeeList.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'list-employee',
+  templateUrl: '/employeeList.component.html'
+  //  stylesUrls: [`/employeeList.component.css`]
+
+  
+})
+export class EmployeeListComponent  {
+  employees : any[];
+  
+  selectedEmployeeCountRadioButton: string = 'All'; //keepf track of which radio button is selected 
+  
+
+  constructor(){
+    this.employees = [
+    { code: 'emp101', name: 'Tom', gender: 'Male', annualSalary: 5500, dateOfBirth: '6/5/1988' },
+    { code: 'emp102', name: 'Alex', gender: 'Male', annualSalary: 5700.95, dateOfBirth: '9/6/1982' },
+    { code: 'emp103', name: 'Mike', gender: 'Male', annualSalary: 5900, dateOfBirth: '12/8/1979' },
+    { code: 'emp104', name: 'Mary', gender: 'Female', annualSalary: 6500.826, dateOfBirth: '10/14/1980' },
+];
+}
+
+//added in session 17: ngForTrackBy //it is used for performace 
+getEmployees() : void {
+  this.employees = [
+    { code: 'emp101', name: 'Tom', gender: 'Male', annualSalary: 5500, dateOfBirth: '6/6/1988' },
+    { code: 'emp102', name: 'Alex', gender: 'Male', annualSalary: 5700.95, dateOfBirth: '9/6/1982' },
+    { code: 'emp103', name: 'Mike', gender: 'Male', annualSalary: 5900, dateOfBirth: '12/8/1979' },
+    { code: 'emp104', name: 'Mary', gender: 'Female', annualSalary: 6500.826, dateOfBirth: '12/8/1980' },
+    { code: 'emp105', name: 'Kishore', gender: 'Male', annualSalary: 6500.826, dateOfBirth: '10/14//1990' },
+  ];
+}
+trackByEmpCode(index:number, employee: any):string{
+return employee.code;
+
+}
+
+//added in session- 21 
+//this will return the total count 
+getTotalEmployeeCount(): number{ 
+  return this.employees.length; 
+}
+//this will return the total male count 
+getTotalMaleEmployeeCount(): number{
+  return this.employees.filter(e=> e.gender ==="Male").length; 
+}
+
+//this will return the total Female count 
+getTotalFemaleEmployeeCount(): number{
+  return this.employees.filter(e=> e.gender ==="Female").length; 
+}
+
+//added this method in session-22 
+onEmployeeCountRadionButtonChange(selectedRadioButtonValue:string): void {
+  this.selectedEmployeeCountRadioButton = "selectedRadioButtonValue";
+}
+} 

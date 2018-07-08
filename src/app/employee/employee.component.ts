@@ -14,3 +14,4 @@ export class EmployeeComponent  {
   age : number =27;
 
 }
+
