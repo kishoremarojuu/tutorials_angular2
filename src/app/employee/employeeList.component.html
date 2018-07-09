@@ -6,7 +6,7 @@
      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
    </head>
   <!-- added in session 21-->
-   <employee-count [all] = "getTotalEmployeeCount()"
+   <employee-count *ngIf="employees" [all] = "getTotalEmployeeCount()"
                    [male] = "getTotalMaleEmployeeCount()" 
                    [female] = "getTotalFemaleEmployeeCount()"
                    > 
@@ -42,6 +42,9 @@
                 <td>{{employee.dateOfBirth|date:'dd/MM/y'|uppercase}}</td>
                 </tr>
                 <!--If the employee object is 0 , or we did not get employee object from server-->
+                <tr *ngIf = "!employees">
+                  <td colspan="5">{{statusMessage}}</td>
+                </tr>
                 <tr *ngIf = "!employees || employees.length==0">
                   <td colspan="5">No Employees to display</td>
                 </tr>
@@ -51,6 +54,13 @@
             
             
         </table>
+
+        <div style="margin-top:5px" *ngIf="!subscription.closed">
+          <input type="button" class="btn btn-primary"
+           value="cancel request"
+           (click)="onCancelButtonClick()"/>
+          
+       </div>
 
       <br/>
       <button (click) ="getEmployees()">Refresh Employees</button>

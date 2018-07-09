@@ -20,15 +20,26 @@ import { Component } from '@angular/core';
      */
 
      //Sesion: 16, ngFor Directive
-     `<list-employee></list-employee> 
-     `
+    // `<list-employee></list-employee> 
+     //`
+
+     //session: 30, routing 
+    `
+    <div style="padding:5px">
+       <ul class = "nav nav-tabs">
+           <li> <a routerLink= "home">Home </a> </li>
+           <li> <a routerLink= "employees">Employees </a>  </li>
+       </ul> 
+       <router-outlet></router-outlet>
+    </div> 
+    ` 
   
 })
 export class AppComponent  {
   //pageHeader : string = "Employee Details";
   
   // two-way data binding 
-  name : string = "Tom"; 
+  //name : string = "Tom"; 
 
 }
  
