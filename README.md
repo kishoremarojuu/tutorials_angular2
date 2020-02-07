@@ -2,8 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.1.
 
-##Getting started with Angular2 
-Sample project from  https://stackblitz.com/edit/angular-gfonvx?file=app%2Fapp.component.ts
+## Getting started with Angular2 
 Steps: 
 Step1: how to install nodejs:  https://nodejs.org/en/download/   , (it will come with npm install as well) 
 Step2: run the installer
@@ -11,9 +10,6 @@ Step3: check the version installed by 'node -v'
 Step4: check the npm version installed here by 'mpm -v' 
 Step5: Go to your project, or you can download the sample project from above link and run 'npm install' --> this will install all the packages 
 Step6: npm start --> this will start your application on http://localhost:4200 
-
-
-
 
 Notes for angular2: 
 app.module.ts --> this is the main file, it will contain all configurations 
